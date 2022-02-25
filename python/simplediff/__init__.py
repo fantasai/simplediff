@@ -14,7 +14,7 @@ __all__ = ['diff', 'string_diff', 'html_diff']
 __version__ = '1.0'
 
 
-def diff(old, new):
+def diff(old, new, overlap_min=1):
     '''
     Find the differences between two lists. Returns a list of pairs, where the
     first value is in ['+','-','='] and represents an insertion, deletion, or
@@ -25,6 +25,8 @@ def diff(old, new):
         old     the old list of immutable, comparable values (ie. a list
                 of strings)
         new     the new list of immutable, comparable values
+        overlap_min the minimum number of consecutive items considered
+                    to be a “matching chunk” between the two lists
    
     Returns:
         A list of pairs, with the first part of the pair being one of three
@@ -104,10 +106,13 @@ def diff(old, new):
     else:
         # ...otherwise, the common substring is unchanged and we recursively
         # diff the text before and after that substring
-        return diff(old[ : sub_start_old], new[ : sub_start_new]) + \
+        return diff(old[ : sub_start_old],
+                    new[ : sub_start_new],
+                    overlap_min) + \
                [('=', new[sub_start_new : sub_start_new + sub_length])] + \
                diff(old[sub_start_old + sub_length : ],
-                       new[sub_start_new + sub_length : ])
+                    new[sub_start_new + sub_length : ],
+                    overlap_min)
 
 
 def string_diff(old, new):
