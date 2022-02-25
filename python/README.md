@@ -112,6 +112,12 @@ time we didn't have to call `.split()` on the input strings.
 See the doctests in `simplediff/__init__.py` for more
 examples.
 
+Utility
+-------
+
+The included `sdiff.py` script uses `diff()` to implement a very simple
+plaintext file diff utility, which outputs in unified format.
+
 License
 -------
 
